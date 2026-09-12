@@ -1,6 +1,4 @@
 import HeroCarousel from "@/components/sections/HeroCarousel";
-import ArtPortal from "./ArtPortal";
-import SelectedWork from "@/components/sections/SelectedWork";
 import ArtistIntro from "@/components/sections/ArtistIntro";
 import ArtisticStatement from "@/components/sections/ArtisticStatement";
 import Process from "@/components/sections/Process";
@@ -11,8 +9,6 @@ export default function Home() {
   return (
     <>
       <HeroCarousel />
-      <ArtPortal />
-      <SelectedWork />
       <ArtistIntro />
       <ArtisticStatement />
       <Process />
