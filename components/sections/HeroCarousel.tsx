@@ -22,6 +22,7 @@ export default function HeroCarousel() {
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<SVGTextElement>(null);
+  const titleDisplayRef = useRef<SVGTextElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [geometry, setGeometry] = useState({ width: 1, height: 1, targetX: 0, targetY: 0 });
@@ -29,6 +30,7 @@ export default function HeroCarousel() {
   useLayoutEffect(() => {
     const stage = stageRef.current;
     const title = titleRef.current;
+    const titleDisplay = titleDisplayRef.current;
     if (!stage || !title) return;
     const measure = () => {
       const width = stage.clientWidth;
@@ -37,6 +39,11 @@ export default function HeroCarousel() {
       title.setAttribute("font-size", String(fontSize));
       title.setAttribute("x", String(width / 2));
       title.setAttribute("y", String(height * 0.52));
+      if (titleDisplay) {
+        titleDisplay.setAttribute("font-size", String(fontSize));
+        titleDisplay.setAttribute("x", String(width / 2));
+        titleDisplay.setAttribute("y", String(height * 0.52));
+      }
       const total = title.getComputedTextLength();
       const focusIndex = "Timatimone".indexOf("a");
       const before = title.getSubStringLength(0, focusIndex);
@@ -111,9 +118,6 @@ export default function HeroCarousel() {
               <span className="mb-3 block font-sans text-[11px] font-medium uppercase tracking-[0.2em] text-ink-soft">
                 {artist.name} · Mixed Media Artist
               </span>
-              <h1 className="mb-3 font-display text-[clamp(2.5rem,6vw,5rem)] font-medium leading-[1] text-ink">
-                Timatimone
-              </h1>
               <p className="mx-auto mb-6 max-w-sm font-sans text-[14px] leading-relaxed text-ink-soft">
                 Sculptural mixed media art rooted in Moroccan heritage, shaped by the Hudson Valley. Every piece is a therapy moment made tangible.
               </p>
@@ -143,7 +147,18 @@ export default function HeroCarousel() {
               </text>
             </clipPath>
           </defs>
+          <text
+            ref={titleDisplayRef}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="font-display font-medium"
+            style={{ opacity: heroOpacity, transform: titleTransform, transformOrigin: "0 0", fill: "#22201A" }}
+          >
+            Timatimone
+          </text>
         </svg>
+
+        <h1 className="sr-only">Timatimone</h1>
 
         <div className="pointer-events-none absolute inset-x-5 bottom-7 z-20 text-center font-sans text-[11px] font-medium uppercase tracking-[0.18em] text-ink-soft md:inset-x-[4vw]" style={{ opacity: 1 - clamp(progress / 0.16) }} aria-hidden="true">
           Scroll to enter
