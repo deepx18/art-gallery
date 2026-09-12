@@ -1,9 +1,28 @@
+"use client";
+
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 
 export default function ArtistIntro() {
+  const imageRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: imageRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Parallax: image moves up slower than scroll
+  const imageY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? [0, 0] : [60, -60],
+  );
+
   return (
     <section className="mx-auto max-w-[1440px] px-5 md:px-[4vw] py-16 md:py-24">
       <Reveal>
@@ -11,17 +30,22 @@ export default function ArtistIntro() {
       </Reveal>
 
       <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-start">
-        {/* Image — using The Mark of Her Truth as visual (no portrait photo available) */}
+        {/* Image — parallax scroll */}
         <Reveal className="md:col-span-5">
-          <div className="relative aspect-[4/5] overflow-hidden">
-            <Image
-              src="/images/the-mark-of-her-truth.jpg"
-              alt="Artwork: The Mark of Her Truth by Fatima Garcia"
-              width={593}
-              height={720}
-              className="w-full h-full object-cover"
-              sizes="(max-width: 768px) 100vw, 40vw"
-            />
+          <div ref={imageRef} className="relative aspect-[4/5] overflow-hidden">
+            <motion.div
+              className="absolute inset-0"
+              style={{ y: imageY }}
+            >
+              <Image
+                src="/images/the-mark-of-her-truth.jpg"
+                alt="Artwork: The Mark of Her Truth by Fatima Garcia"
+                width={593}
+                height={720}
+                className="w-full h-[120%] object-cover"
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+            </motion.div>
           </div>
           <p className="mt-3 text-[11px] text-ink-soft font-sans italic">
             Artwork: The Mark of Her Truth, 2025
@@ -51,7 +75,7 @@ export default function ArtistIntro() {
 
           <Link
             href="/about"
-            className="inline-block mt-8 text-[12px] uppercase tracking-[0.18em] font-medium font-sans text-ink border-b border-ink pb-1 hover:opacity-60 transition-opacity"
+            className="link-underline mt-8 inline-block text-[12px] uppercase tracking-[0.18em] font-medium font-sans text-ink"
           >
             Read more
           </Link>

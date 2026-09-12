@@ -2,19 +2,17 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
-interface RevealProps {
+interface FadeInProps {
   children: ReactNode;
   className?: string;
   delay?: number;
-  animation?: "up" | "fade";
 }
 
-export default function Reveal({
+export default function FadeIn({
   children,
   className = "",
   delay = 0,
-  animation = "up",
-}: RevealProps) {
+}: FadeInProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,10 +35,8 @@ export default function Reveal({
     return () => observer.disconnect();
   }, [delay]);
 
-  const animationClass = animation === "fade" ? "reveal-fade" : "reveal-up";
-
   return (
-    <div ref={ref} className={`${animationClass} ${className}`}>
+    <div ref={ref} className={`reveal-fade ${className}`}>
       {children}
     </div>
   );

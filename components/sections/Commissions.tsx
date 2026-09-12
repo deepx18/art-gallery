@@ -33,7 +33,7 @@ export default function Commissions() {
           <div className="mt-12 md:mt-16">
             <Link
               href="/contact"
-              className="inline-block text-[12px] uppercase tracking-[0.18em] font-medium font-sans text-ink border-b border-ink pb-1 hover:opacity-60 transition-opacity"
+              className="link-underline text-[12px] uppercase tracking-[0.18em] font-medium font-sans text-ink"
             >
               Start a conversation
             </Link>

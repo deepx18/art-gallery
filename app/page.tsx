@@ -1,4 +1,4 @@
-import Hero from "@/components/sections/Hero";
+import HeroCarousel from "@/components/sections/HeroCarousel";
 import SelectedWork from "@/components/sections/SelectedWork";
 import ArtistIntro from "@/components/sections/ArtistIntro";
 import ArtisticStatement from "@/components/sections/ArtisticStatement";
@@ -9,7 +9,7 @@ import ContactCTA from "@/components/sections/ContactCTA";
 export default function Home() {
   return (
     <>
-      <Hero />
+      <HeroCarousel />
       <SelectedWork />
       <ArtistIntro />
       <ArtisticStatement />

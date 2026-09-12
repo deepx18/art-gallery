@@ -2,19 +2,17 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
-interface RevealProps {
+interface ImageRevealProps {
   children: ReactNode;
   className?: string;
   delay?: number;
-  animation?: "up" | "fade";
 }
 
-export default function Reveal({
+export default function ImageReveal({
   children,
   className = "",
   delay = 0,
-  animation = "up",
-}: RevealProps) {
+}: ImageRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,17 +28,15 @@ export default function Reveal({
           observer.unobserve(el);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
   }, [delay]);
 
-  const animationClass = animation === "fade" ? "reveal-fade" : "reveal-up";
-
   return (
-    <div ref={ref} className={`${animationClass} ${className}`}>
+    <div ref={ref} className={`reveal-mask ${className}`}>
       {children}
     </div>
   );

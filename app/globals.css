@@ -47,11 +47,49 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ─── Motion Tokens ─── */
+:root {
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 300ms;
+  --duration-normal: 500ms;
+  --duration-slow: 700ms;
+  --stagger: 80ms;
+}
+
 /* ─── Reveal Animation ─── */
 @keyframes reveal-up {
   from {
     opacity: 0;
     transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes reveal-mask {
+  from {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 0% 0);
+    opacity: 1;
+  }
+}
+
+@keyframes stagger-child {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -65,7 +103,43 @@ body {
 }
 
 .reveal-up.revealed {
-  animation: reveal-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: reveal-up var(--duration-slow) var(--ease-out-expo) forwards;
+}
+
+.reveal-fade {
+  opacity: 0;
+}
+
+.reveal-fade.revealed {
+  animation: reveal-fade var(--duration-normal) var(--ease-out-expo) forwards;
+}
+
+.reveal-mask {
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+}
+
+.reveal-mask.revealed {
+  animation: reveal-mask var(--duration-slow) var(--ease-out-expo) forwards;
+}
+
+/* Stagger children — parent sets --stagger-count, children get animated */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.stagger-children.revealed > * {
+  animation: stagger-child var(--duration-normal) var(--ease-out-expo) forwards;
+}
+
+/* ─── Page Loader ─── */
+@keyframes loader-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes loader-fade {
+  to { opacity: 1; }
 }
 
 /* ─── Reduced Motion ─── */
@@ -79,9 +153,23 @@ body {
     scroll-behavior: auto !important;
   }
 
-  .reveal-up {
+  .reveal-up,
+  .reveal-fade,
+  .reveal-mask,
+  .stagger-children > * {
     opacity: 1;
     transform: none;
+    clip-path: none;
+    animation: none;
+  }
+
+  .stagger-children > * {
+    animation: none;
+  }
+
+  /* Page loader — hide immediately */
+  .page-loader {
+    display: none !important;
   }
 }
 
@@ -95,6 +183,27 @@ body {
 ::selection {
   background-color: var(--olive-tint);
   color: var(--ink);
+}
+
+/* ─── Animated underline link ─── */
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.link-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width var(--duration-fast) var(--ease-out-expo);
+}
+
+.link-underline:hover::after {
+  width: 100%;
 }
 
 /* ─── Smooth image hover ─── */

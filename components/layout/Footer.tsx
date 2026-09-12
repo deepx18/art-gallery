@@ -24,30 +24,30 @@ export default function Footer() {
           </div>
 
           {/* Social links */}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             <a
               href={artist.socials.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[12px] uppercase tracking-[0.18em] text-ink-soft hover:text-ink transition-colors font-sans"
+              className="link-underline text-[12px] uppercase tracking-[0.18em] text-ink-soft hover:text-ink transition-colors font-sans w-fit"
             >
               Instagram
             </a>
             <a
               href={`mailto:${artist.email}`}
-              className="text-[12px] uppercase tracking-[0.18em] text-ink-soft hover:text-ink transition-colors font-sans"
+              className="link-underline text-[12px] uppercase tracking-[0.18em] text-ink-soft hover:text-ink transition-colors font-sans w-fit"
             >
               Email
             </a>
           </div>
 
           {/* Nav links */}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-[12px] uppercase tracking-[0.18em] text-ink-soft hover:text-ink transition-colors font-sans"
+                className="link-underline text-[12px] uppercase tracking-[0.18em] text-ink-soft hover:text-ink transition-colors font-sans w-fit"
               >
                 {link.label}
               </Link>

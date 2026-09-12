@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { artworks, getArtwork, getAdjacentArtworks } from "@/data/artworks";
 import ArtworkMeta from "@/components/artwork/ArtworkMeta";
 import Reveal from "@/components/motion/Reveal";
+import ImageReveal from "@/components/motion/ImageReveal";
 
 interface ArtworkPageProps {
   params: Promise<{ slug: string }>;
@@ -43,15 +44,16 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
       <Reveal>
         <Link
           href="/work"
-          className="inline-block text-[12px] uppercase tracking-[0.18em] font-medium font-sans text-ink-soft hover:text-ink transition-colors mb-10 md:mb-14"
+          className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] font-medium font-sans text-ink-soft hover:text-ink transition-colors mb-10 md:mb-14 group"
         >
-          ← Back to work
+          <span className="transition-transform duration-300 group-hover:-translate-x-1">←</span>
+          Back to work
         </Link>
       </Reveal>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
-        {/* Image */}
-        <Reveal className="lg:col-span-8">
+        {/* Image with clip-path reveal */}
+        <ImageReveal className="lg:col-span-8">
           <Image
             src={artwork.image}
             alt={artwork.title}
@@ -61,47 +63,77 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
             className="w-full h-auto object-cover"
             sizes="(max-width: 1024px) 100vw, 66vw"
           />
-        </Reveal>
+        </ImageReveal>
 
         {/* Meta */}
-        <Reveal delay={80} className="lg:col-span-4 lg:col-start-9">
+        <Reveal delay={150} className="lg:col-span-4 lg:col-start-9">
           <ArtworkMeta artwork={artwork} />
         </Reveal>
       </div>
 
-      {/* Prev / Next */}
-      <div className="mt-16 md:mt-24 flex justify-between items-start gap-8 border-t border-line pt-8">
-        {prev ? (
-          <Link
-            href={`/work/${prev.slug}`}
-            className="group block"
-          >
-            <span className="text-[11px] uppercase tracking-[0.18em] text-ink-soft font-sans">
-              Previous
-            </span>
-            <p className="font-display text-xl font-medium text-ink mt-1 group-hover:opacity-60 transition-opacity">
-              {prev.title}
-            </p>
-          </Link>
-        ) : (
-          <div />
-        )}
+      {/* Prev / Next with thumbnails */}
+      <div className="mt-16 md:mt-24 border-t border-line pt-8">
+        <div className="grid grid-cols-2 gap-8">
+          {/* Previous */}
+          <div>
+            {prev ? (
+              <Link
+                href={`/work/${prev.slug}`}
+                className="group block"
+              >
+                <span className="text-[11px] uppercase tracking-[0.18em] text-ink-soft font-sans">
+                  ← Previous
+                </span>
+                <div className="mt-3 flex items-center gap-4">
+                  <div className="relative w-16 h-16 overflow-hidden shrink-0">
+                    <Image
+                      src={prev.image}
+                      alt={prev.title}
+                      width={64}
+                      height={64}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+                  <p className="font-display text-lg font-medium text-ink group-hover:underline group-hover:decoration-olive group-hover:underline-offset-4 transition-all">
+                    {prev.title}
+                  </p>
+                </div>
+              </Link>
+            ) : (
+              <div />
+            )}
+          </div>
 
-        {next ? (
-          <Link
-            href={`/work/${next.slug}`}
-            className="group block text-right"
-          >
-            <span className="text-[11px] uppercase tracking-[0.18em] text-ink-soft font-sans">
-              Next
-            </span>
-            <p className="font-display text-xl font-medium text-ink mt-1 group-hover:opacity-60 transition-opacity">
-              {next.title}
-            </p>
-          </Link>
-        ) : (
-          <div />
-        )}
+          {/* Next */}
+          <div className="text-right">
+            {next ? (
+              <Link
+                href={`/work/${next.slug}`}
+                className="group block"
+              >
+                <span className="text-[11px] uppercase tracking-[0.18em] text-ink-soft font-sans">
+                  Next →
+                </span>
+                <div className="mt-3 flex items-center justify-end gap-4">
+                  <p className="font-display text-lg font-medium text-ink group-hover:underline group-hover:decoration-olive group-hover:underline-offset-4 transition-all">
+                    {next.title}
+                  </p>
+                  <div className="relative w-16 h-16 overflow-hidden shrink-0">
+                    <Image
+                      src={next.image}
+                      alt={next.title}
+                      width={64}
+                      height={64}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+                </div>
+              </Link>
+            ) : (
+              <div />
+            )}
+          </div>
+        </div>
       </div>
     </section>
   );

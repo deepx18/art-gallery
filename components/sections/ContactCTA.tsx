@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
+import MagneticButton from "@/components/ui/MagneticButton";
 
 export default function ContactCTA() {
   return (
@@ -14,12 +15,14 @@ export default function ContactCTA() {
         <p className="max-w-md mx-auto text-[15px] text-ink-soft font-sans leading-relaxed mb-8">
           For commissions, collaborations, exhibitions, or general inquiries.
         </p>
-        <Link
-          href="/contact"
-          className="inline-block bg-olive text-cream text-[12px] uppercase tracking-[0.18em] font-medium font-sans px-8 py-4 hover:bg-olive-deep transition-colors"
-        >
-          Get in touch
-        </Link>
+        <MagneticButton>
+          <Link
+            href="/contact"
+            className="inline-block bg-olive text-cream text-[12px] uppercase tracking-[0.18em] font-medium font-sans px-8 py-4 hover:bg-olive-deep transition-colors duration-300"
+          >
+            Get in touch
+          </Link>
+        </MagneticButton>
       </Reveal>
     </section>
   );

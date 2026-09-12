@@ -2,19 +2,19 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
-interface RevealProps {
+interface StaggerChildrenProps {
   children: ReactNode;
   className?: string;
   delay?: number;
-  animation?: "up" | "fade";
+  staggerMs?: number;
 }
 
-export default function Reveal({
+export default function StaggerChildren({
   children,
   className = "",
   delay = 0,
-  animation = "up",
-}: RevealProps) {
+  staggerMs = 80,
+}: StaggerChildrenProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,6 +24,11 @@ export default function Reveal({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          // Apply stagger delay to each child via inline style
+          Array.from(el.children).forEach((child, i) => {
+            (child as HTMLElement).style.animationDelay = `${delay + i * staggerMs}ms`;
+          });
+
           setTimeout(() => {
             el.classList.add("revealed");
           }, delay);
@@ -35,12 +40,10 @@ export default function Reveal({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [delay]);
-
-  const animationClass = animation === "fade" ? "reveal-fade" : "reveal-up";
+  }, [delay, staggerMs]);
 
   return (
-    <div ref={ref} className={`${animationClass} ${className}`}>
+    <div ref={ref} className={`stagger-children ${className}`}>
       {children}
     </div>
   );

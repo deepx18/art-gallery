@@ -97,7 +97,7 @@ export default function CommissionsPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-block bg-olive text-cream text-[12px] uppercase tracking-[0.18em] font-medium font-sans px-8 py-4 hover:bg-olive-deep transition-colors"
+            className="inline-block bg-olive text-cream text-[12px] uppercase tracking-[0.18em] font-medium font-sans px-8 py-4 hover:bg-olive-deep hover:scale-[1.02] transition-all duration-300"
           >
             Get in touch
           </Link>

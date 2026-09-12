@@ -1,3 +1,7 @@
+"use client";
+
+import TextRevealLine from "@/components/motion/TextRevealLine";
+
 interface SectionHeadingProps {
   label?: string;
   title: string;
@@ -20,9 +24,12 @@ export default function SectionHeading({
           {label}
         </span>
       )}
-      <h2 className="font-display text-[clamp(2.75rem,5vw,4.5rem)] leading-[1.05] font-medium text-ink">
+      <TextRevealLine
+        as="h2"
+        className="font-display text-[clamp(2.75rem,5vw,4.5rem)] leading-[1.05] font-medium text-ink"
+      >
         {title}
-      </h2>
+      </TextRevealLine>
     </div>
   );
 }
